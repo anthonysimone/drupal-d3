@@ -1,7 +1,7 @@
 <?php
 
 $btth = array(
-  'breadcrumb' => 1,
+  'breadcrumb' => 0,
   'title_pref' => 1,
   'title' => 1,
   'title_suf' => 1,

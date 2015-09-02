@@ -39,3 +39,101 @@
     width: 0;
   }
 }
+
+
+// block grid mixin ported to the 'div' element
+@mixin block-grid-div(
+  $per-row:false,
+  $spacing:$block-grid-default-spacing,
+  $include-spacing:true,
+  $base-style:true) {
+
+  @if $base-style {
+    display: block;
+    padding: 0;
+    @if $align-block-grid-to-grid {
+      margin: 0;
+    } @else {
+      margin: 0 (-$spacing/2);
+    }
+    @include clearfix;
+
+    > div {
+      display: block;
+      float: $default-float;
+      height: auto;
+      @if $include-spacing {
+        padding: 0 ($spacing/2) $spacing;
+      }
+    }
+  }
+
+  @if $per-row {
+    > div {
+      @if $include-spacing {
+        padding: 0 ($spacing/2) $spacing;
+      }
+      width: 100%/$per-row;
+
+      &:nth-of-type(1n) { clear: none; }
+      &:nth-of-type(#{$per-row}n+1) { clear: both; }
+      @if $align-block-grid-to-grid {
+        @include block-grid-aligned($per-row, $spacing);
+      }
+    }
+  }
+}
+
+// Mixin to replicate the useful bootstrap media object pattern
+// @TODO: Adjust for rem/px depending on what we end up using
+@mixin media() {
+  overflow: hidden;
+  zoom: 1;
+}
+@mixin media-body($alignment: top) {
+  display: table-cell;
+  vertical-align: $alignment;
+  width: rem-calc(10000); // force body to take up the most space
+}
+@mixin media-left($alignment: top, $padding: 10) {
+  display: table-cell;
+  vertical-align: $alignment;
+  padding-right: rem-calc($padding);
+  // If the media-left size is NOT specifically set and the contents is an image
+  // the image cannot have max-width or width set to 100%
+  img {
+    max-width: initial;
+  }
+}
+@mixin media-right($alignment: top, $padding: 10) {
+  display: table-cell;
+  vertical-align: $alignment;
+  padding-left: rem-calc($padding);
+}
+
+// Background image mixins
+@mixin bg-cover() {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+@mixin bg-contain() {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
+// Icomoon mixing to add the default icomoon styles
+@mixin icomoon() {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
