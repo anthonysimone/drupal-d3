@@ -1,0 +1,41 @@
+/**
+ * @file
+ * All mixins available to themekit
+ */
+
+/* Custom Mixins */
+
+/* Required for message styles */
+@mixin square($dimensions) {
+  height: $dimensions;
+  width: $dimensions;
+}
+
+/* Mixins from Zen base */
+
+/* The word "Unpublished" displayed underneath unpublished nodes and comments. */
+@mixin unpublished-div {
+  height: 0;
+  overflow: visible;
+  color: #d8d8d8;
+  font-size: 75px;
+  line-height: 1;
+  font-family: Impact, "Arial Narrow", Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* Builds CSS triangles */
+@mixin triangle($direction, $size: 5px, $color: '#FFFFFF') {
+  @if not index(top right bottom left, $direction) {
+    @warn "\"#{$direction}\" is not a valid direction value. Value must be one of: top, right, bottom, left";
+  }
+  @else {
+    border: $size solid transparent;
+    border-#{$direction}-color: $color;
+    height: 0;
+    width: 0;
+  }
+}

@@ -1,0 +1,3 @@
+[submodule "deploykit"]
+	path = deploykit
+	url = git@github.com:elevatedthird/deploykit.git
