@@ -51,3 +51,28 @@
     color: #fff;
   }
 }
+
+
+// Fix some adminimal menu issues when viewed on the front end
+.slicknav_menu {
+  a.slicknav_item,
+  .dropdown a {
+    font-size: 14px;
+  }
+  #responsive-shortcuts-dropdown {
+    margin: 0;
+  }
+}
+.adminimal-menu #admin-menu {
+  .label {
+    background: transparent;
+  }
+  a {
+    transition: none;
+  }
+}
+@media #{$adminimal-menu-only} {
+  body.admin-menu.adminimal-menu:before {
+    height: 0;
+  }
+}

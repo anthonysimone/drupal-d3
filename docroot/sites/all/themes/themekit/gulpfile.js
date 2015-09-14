@@ -37,6 +37,8 @@ var stylesSrc = [
 
 var scriptsSrc = [
   // add bower_component scripts here
+  paths.bowerDir + '/foundation/js/foundation/foundation.js',
+  paths.bowerDir + '/foundation/js/foundation/foundation.topbar.js',
   './js/src/*.js'
 ];
 
