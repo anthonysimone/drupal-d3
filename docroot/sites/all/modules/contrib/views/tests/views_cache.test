@@ -174,7 +174,7 @@ class ViewsCacheTest extends ViewsSqlTest {
     $view->preview();
     $css = drupal_add_css();
     $css_path = drupal_get_path('module', 'views_test') . '/views_cache.test.css';
-    $js_path = drupal_get_path('module', 'views_test') . '/views_cache.test.js';
+    $js_path = drupal_get_path('module', 'views_test') . '/views_cache.foundation-init.js';
     $js = drupal_add_js();
 
     $this->assertTrue(isset($css[$css_path]), 'Make sure the css is added for cached views.');
