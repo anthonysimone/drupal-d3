@@ -1,0 +1,85 @@
+<?php
+/**
+ * wwex_customer_search.module
+ * provides customer search block and functionality
+ * 9/10/14 Mojiferous
+ */
+
+/**
+ * implements hook_menu()
+ * @return mixed
+ */
+function d3_autocomplete_menu() {
+  $items['articles/with-popularity'] = array(
+    'title' => t('Articles With Popularity'),
+    'page callback' => 'd3_autocomplete_autocomplete',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+
+//  $items['search/carrier/autocomplete'] = array(
+//    'title' => t('Carrier Search Autocomplete'),
+//    'page callback' => 'wwex_customer_search_carrier_autocomplete',
+//    'access callback' => 'wwex_customer_search_can_access_autocomplete',
+//    'type' => MENU_CALLBACK
+//  );
+
+  return $items;
+}
+
+
+
+/**
+ * autocomplete function for the carrier search
+ * @param $val
+ */
+function d3_autocomplete_autocomplete() {
+
+  //query to find matching carriers from taxonomy
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'article')
+    ->range(0, 10);
+  $results = $query->execute();
+
+  if ($results) {
+    $resultKeys = array_keys($results['node']);
+    $nodes = entity_load('node', $resultKeys);
+
+    $usefulResults = array();
+
+    foreach ($nodes as $key => $value) {
+      // Get lang
+      $language = $value->language;
+
+      // Get author node
+      $author = node_load($value->field_author[$language][0]['target_id']);
+
+      // Get tax array
+      $taxonomyIDs = array();
+      foreach ($value->field_tags[$language] as $tid) {
+        array_push($taxonomyIDs, $tid['tid']);
+      }
+      $tags = taxonomy_term_load_multiple($taxonomyIDs);
+      $tagNames = array();
+      foreach ($tags as $tag) {
+        array_push($tagNames, $tag->name);
+      }
+
+      // Build the array that will return the JSON results that I want to get
+      $usefulResults[] = array(
+        'nid' => $value->nid,
+        'title' => $value->title,
+        'popularity' => $value->field_popularity[$language][0]['radioactivity_energy'],
+        'date' => $value->created,
+        'author' => $author->title,
+        'tags' => $tagNames
+      );
+
+    }
+
+
+    drupal_json_output($usefulResults);
+  }
+
+}

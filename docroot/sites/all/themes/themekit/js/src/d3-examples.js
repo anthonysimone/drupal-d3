@@ -22,19 +22,28 @@
      *********************************************************************************/
 
     (function () {
-      var data = [
-        {expense: 10, category: "Retail"},
-        {expense: 15, category: "Gas"},
-        {expense: 30, category: "Retail"},
-        {expense: 50, category: "Dining"},
-        {expense: 80, category: "Gas"},
-        {expense: 65, category: "Retail"},
-        {expense: 55, category: "Gas"},
-        {expense: 30, category: "Dining"},
-        {expense: 20, category: "Retail"},
-        {expense: 10, category: "Dining"},
-        {expense: 8, category: "Gas"}
-      ];
+
+      var data;
+      d3.json("articles/with-popularity", function(error, dataJSON) {
+        console.log(error);
+        console.log(data);
+        data = dataJSON;
+        render(data);
+      });
+
+      //var data = [
+      //  {expense: 10, category: "Retail"},
+      //  {expense: 15, category: "Gas"},
+      //  {expense: 30, category: "Retail"},
+      //  {expense: 50, category: "Dining"},
+      //  {expense: 80, category: "Gas"},
+      //  {expense: 65, category: "Retail"},
+      //  {expense: 55, category: "Gas"},
+      //  {expense: 30, category: "Dining"},
+      //  {expense: 20, category: "Retail"},
+      //  {expense: 10, category: "Dining"},
+      //  {expense: 8, category: "Gas"}
+      //];
 
       function render(data, comparator) {
         d3.select("#example3 .chart").selectAll("div.h-bar")
@@ -51,11 +60,11 @@
           .data(data)
           .attr("class", "h-bar")
           .style("width", function (d) {
-            return (d.expense * 5) + "px";
+            return (d.popularity * 2) + "px";
           })
           .select("span")
           .text(function (d) {
-            return d.category;
+            return d.title;
           });
 
         if (comparator)
@@ -71,7 +80,7 @@
         return a.category < b.category ? -1 : 1;
       };
 
-      render(data);
+      //render(data);
 
       function sort(comparator) {
         switch (comparator) {

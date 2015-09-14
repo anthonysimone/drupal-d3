@@ -1,0 +1,101 @@
+.h-bar {
+  min-height: 30px;
+  min-width: 10px;
+  background-color: steelblue;
+  margin-bottom: 5px;
+  font-size: 16px;
+  text-align: left;
+  padding-right: 2px;
+  position: relative;
+  span {
+    color: #222;
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    top: 3px;
+    width: 100%;
+    min-width: 400px;
+    font-size: 16px;
+    color: #555;
+  }
+}
+.selected {
+  background-color: #f08080;
+}
+.hide {
+  display: none;
+}
+
+.v-bar {
+  min-height: 1px;
+  min-width: 30px;
+  background-color: #4682b4;
+  margin-right: 2px;
+  font-size: 10px;
+  color: #f0f8ff;
+  text-align: center;
+  width: 10px;
+  display: inline-block;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke-width: 2px;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis .grid-line{
+  stroke: black;
+  shape-rendering: crispEdges;
+  stroke-opacity: .2;
+}
+
+.line{
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2;
+}
+
+#example6 .chart,
+#example5 .chart {
+  min-height: 500px;
+  min-width: 500px;
+
+  svg {
+    background: #fff;
+  }
+}
+
+#example7 .chart {
+  min-height: 500px;
+  min-width: 960px;
+  path {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: .5px;
+  }
+  path:hover {
+    fill: red;
+  }
+}
+
+#example8 .chart {
+  min-height: 100px;
+  min-width: 680px;
+  position: relative;
+
+  .v-bar {
+    min-width: 40px;
+  }
+}
+
+#example9 .chart {
+  svg {
+    background: #fff;
+  }
+}

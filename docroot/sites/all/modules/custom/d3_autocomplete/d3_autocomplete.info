@@ -1,0 +1,5 @@
+name = D3 Autocomplete
+description = Examples getting data with D3
+core = 7.x
+package = Worldwide Express Custom
+;configure = admin/config/
