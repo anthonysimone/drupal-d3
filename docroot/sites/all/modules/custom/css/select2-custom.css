@@ -1,0 +1,23 @@
+/**
+ * General overrides to play nice with admin theme
+ */
+
+.better-admin-backend select[multiple],
+.better-admin-backend .select2-dropdown,
+.better-admin-backend .select2-container {
+  min-width: 300px;
+}
+
+.better-admin-backend select[multiple] {
+  max-width: 500px;
+}
+
+.better-admin-backend .select2-container * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.better-admin-backend .select2-container .select2-search--inline .select2-search__field {
+  margin-top: 8px;
+}

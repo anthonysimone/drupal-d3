@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function better_admin_menu() {
+  $items = array();
+
+  $items['admin/config/administration/better_admin'] = array(
+    'title' => 'Better Admin',
+    'description' => 'Configuration for Better Admin module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('better_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+
+
+/**
+ * Implements hook_preprocess_html
+ */
+function better_admin_preprocess_html(&$variables) {
+  if (path_is_admin(current_path())) {
+    $variables['classes_array'][] = 'better-admin-backend';
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_form_element
+ */
+function better_admin_preprocess_form_element(&$variables) {
+  $is_admin = &drupal_static(__FUNCTION__ . 'is_admin');
+  $is_admin = (isset($is_admin)) ? $is_admin : path_is_admin(current_path());
+
+  if (variable_get('better_admin_select2', 1) && $is_admin && isset($variables['element'])) {
+    $element =& $variables['element'];
+    if ($element['#type'] == 'select') {
+      // Get path to module
+      $path = drupal_get_path('module', 'better_admin');
+
+      // Default options.
+      $js_options = array('group' => JS_THEME);
+      $css_options = array('group' => CSS_THEME);
+
+      // Add js and css to customize the admin theme
+      drupal_add_js($path . '/select2/dist/js/select2.min.js', $js_options);
+      drupal_add_js($path . '/js/admin-multi-selects.js', $js_options);
+
+      drupal_add_css($path . '/select2/dist/css/select2.min.css', $css_options);
+      drupal_add_css($path . '/css/select2-custom.css', $css_options);
+    }
+  }
+}
+
+
+/**
+ * Implements hook_form().
+ */
+function better_admin_form($form, &$form_state) {
+  $form['better_admin_select2'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Use Select2 multiselects in admin theme',
+    '#default_value' => variable_get('better_admin_select2', 0),
+    '#prefix' => '<h3>Select2 Multi Selects</h3>',
+  );
+ 
+  return system_settings_form($form);
+}
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function better_admin_uninstall() {
+  // Get global variable array
+  global $conf;
+  foreach (array_keys($conf) as $key) {
+    // Find variables that have the module prefix
+    if (strpos($key, 'better_admin_') === 0) {
+      variable_del($key);
+    }
+  }
+}
