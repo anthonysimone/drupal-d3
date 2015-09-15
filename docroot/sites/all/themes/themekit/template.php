@@ -49,6 +49,10 @@ function themekit_preprocess_html(&$variables) {
   ));
 }
 
+function themekit_preprocess_node(&$variables) {
+  $test = '';
+}
+
 /**
  * Override or insert variables into the block templates.
  *

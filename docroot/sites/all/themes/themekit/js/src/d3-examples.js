@@ -24,28 +24,17 @@
     (function () {
 
       var data;
-      d3.json("articles/with-popularity", function(error, dataJSON) {
-        console.log(error);
-        console.log(data);
-        data = dataJSON;
-        render(data);
-      });
 
-      //var data = [
-      //  {expense: 10, category: "Retail"},
-      //  {expense: 15, category: "Gas"},
-      //  {expense: 30, category: "Retail"},
-      //  {expense: 50, category: "Dining"},
-      //  {expense: 80, category: "Gas"},
-      //  {expense: 65, category: "Retail"},
-      //  {expense: 55, category: "Gas"},
-      //  {expense: 30, category: "Dining"},
-      //  {expense: 20, category: "Retail"},
-      //  {expense: 10, category: "Dining"},
-      //  {expense: 8, category: "Gas"}
-      //];
+      function renderJSON() {
+        d3.json("articles/with-popularity", function(error, dataJSON) {
+          console.log(dataJSON);
+          data = dataJSON;
+          render(data, compareByMostPopular);
+        });
+      }
 
-      function render(data, comparator) {
+
+      function render(data, comparator, category) {
         d3.select("#example3 .chart").selectAll("div.h-bar")
           .data(data)
           .enter().append("div")
@@ -67,38 +56,34 @@
             return d.title;
           });
 
-        if (comparator)
+        if (comparator) {
+          console.log(comparator);
           d3.select("#example3 .chart")
             .selectAll("div.h-bar")
             .sort(comparator);
-      }
-
-      var compareByExpense = function (a, b) {
-        return a.expense < b.expense ? -1 : 1;
-      };
-      var compareByCategory = function (a, b) {
-        return a.category < b.category ? -1 : 1;
-      };
-
-      //render(data);
-
-      function sort(comparator) {
-        switch (comparator) {
-          case 'compareByExpense':
-            render(data, compareByExpense);
-            break;
-          case 'compareByCategory':
-            render(data, compareByCategory);
-            break;
-          default:
-            render(data);
-            break;
         }
+
+        if (category) {
+          d3.select("#example3 .chart").selectAll("div.h-bar")
+            .filter(function (d, i) {
+              return d.category == category;
+            })
+            .classed("selected", true);
+        }
+
       }
 
-      $('#example3 .sorters button').on("click", function (e) {
-        sort($(this).attr('data-comparator'));
-      });
+      var compareByMostPopular = function (a, b) {
+        return a.popularity > b.popularity ? -1 : 1;
+      };
+
+      renderJSON();
+      setInterval(function() {
+        console.log("WAPOW");
+        renderJSON();
+      }, 10000);
+
+
 
     })();
 
